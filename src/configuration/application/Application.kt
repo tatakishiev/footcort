@@ -70,7 +70,6 @@ fun Application.routingModule() {
     }
 }
 
-
 fun Application.mainDependencies() {
     install(ContentNegotiation) {
         jackson { }
