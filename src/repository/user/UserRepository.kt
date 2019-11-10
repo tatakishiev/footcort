@@ -70,7 +70,8 @@ class UserRepositoryImpl : UserRepository {
             id = row[Users.id].value,
             phoneNumber = row[Users.phoneNumber],
             firstName = row[Users.firstName],
-            lastName = row[Users.lastName]
+            lastName = row[Users.lastName],
+            password = row[Users.password]
         )
     }
 }

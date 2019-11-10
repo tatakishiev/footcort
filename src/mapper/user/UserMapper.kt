@@ -2,23 +2,24 @@ package mapper.user
 
 import domain.entity.user.User
 import domainrequest.user.CreateUserRequest
+import dto.registration.RegistrationDto
 import dto.user.CreateUserDto
 import dto.user.UserDto
 import org.mindrot.jbcrypt.BCrypt
 
 interface UserMapper {
     fun toDto(user: User): UserDto
-    fun toCreateUseRequest(createUserDto: CreateUserDto): CreateUserRequest
+    fun toCreateUseRequest(registrationDto: RegistrationDto): CreateUserRequest
 }
 
 class UserMapperImpl : UserMapper {
 
-    override fun toCreateUseRequest(createUserDto: CreateUserDto): CreateUserRequest {
+    override fun toCreateUseRequest(registrationDto: RegistrationDto): CreateUserRequest {
         return CreateUserRequest(
-            firstName = createUserDto.firstName,
-            lastName = createUserDto.lastName,
-            phoneNumber = createUserDto.phoneNumber,
-            password = BCrypt.hashpw(createUserDto.password, BCrypt.gensalt())
+            firstName = registrationDto.firstName,
+            lastName = registrationDto.lastName,
+            phoneNumber = registrationDto.phoneNumber,
+            password = BCrypt.hashpw(registrationDto.password, BCrypt.gensalt())
         )
     }
 

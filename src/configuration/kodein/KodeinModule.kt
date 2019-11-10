@@ -1,8 +1,10 @@
 package configuration.kodein
 
 import endpoint.court.CourtEndpointImpl
+import endpoint.registration.RegistrationEndpointImpl
 import endpoint.user.UserEndpointImpl
 import mapper.court.CourtMapperImpl
+import mapper.registration.TokenMapperImpl
 import mapper.user.UserMapperImpl
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -28,8 +30,20 @@ object KodeinModule {
         bind() from singleton { UserEndpointImpl(instance(), instance()) }
     }
 
+    private val registrationModule = Kodein.Module("REGISTRATION") {
+        bind() from singleton { TokenMapperImpl() }
+        bind() from singleton {
+            RegistrationEndpointImpl(
+                instance(),
+                instance(),
+                instance()
+            )
+        }
+    }
+
     internal val kodein = Kodein {
         import(courtModule)
         import(userModule)
+        import(registrationModule)
     }
 }

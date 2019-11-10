@@ -4,8 +4,10 @@ import com.typesafe.config.ConfigFactory
 import configuration.database.DatabaseFactory
 import configuration.kodein.KodeinModule
 import controller.court.court
+import controller.registration.registration
 import controller.user.user
 import endpoint.court.CourtEndpointImpl
+import endpoint.registration.RegistrationEndpointImpl
 import endpoint.user.UserEndpointImpl
 import exception.base.ErrorResponse
 import io.ktor.application.Application
@@ -60,9 +62,11 @@ fun configureServer(): BaseApplicationEngine {
 fun Application.routingModule() {
     val courtEndpoint by KodeinModule.kodein.instance<CourtEndpointImpl>()
     val userEndpoint by KodeinModule.kodein.instance<UserEndpointImpl>()
+    val registrationEndpoint by KodeinModule.kodein.instance<RegistrationEndpointImpl>()
     install(Routing) {
         court(courtEndpoint)
         user(userEndpoint)
+        registration(registrationEndpoint)
     }
 }
 

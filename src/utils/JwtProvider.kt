@@ -18,7 +18,7 @@ object JwtProvider {
 
     fun decodeJWT(token: String): DecodedJWT = JWT.require(Cipher.algorithm).build().verify(token)
 
-    fun createJWT(user: User): String? =
+    fun createJWT(user: User): String =
         JWT.create()
             .withIssuedAt(Date())
             .withSubject("Authentication")

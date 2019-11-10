@@ -15,5 +15,6 @@ class User(
     val id: Long,
     val phoneNumber: String,
     val firstName: String?,
-    val lastName: String?
+    val lastName: String?,
+    val password: String
 ) : Principal
