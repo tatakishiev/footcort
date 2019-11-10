@@ -1,10 +1,9 @@
 package domain.entity.court
 
+import org.jetbrains.exposed.dao.LongIdTable
 import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.Table
 
-object Courts : Table() {
-    val id: Column<Long> = long("id").autoIncrement().primaryKey()
+object Courts : LongIdTable() {
     val name: Column<String> = varchar("name", 200).uniqueIndex()
 }
 
