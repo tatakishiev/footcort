@@ -45,6 +45,7 @@ dependencies {
     compile "io.ktor:ktor-client-core-jvm:$ktor_version"
     compile "io.ktor:ktor-client-jetty:$ktor_version"
     compile "io.ktor:ktor-server-core:$ktor_version"
+    compile "io.ktor:ktor-auth-jwt:$ktor_version"
     compile "io.ktor:ktor-auth:$ktor_version"
     compile "io.ktor:ktor-jackson:$ktor_version"
     compile "io.ktor:ktor-locations:$ktor_version"
@@ -55,13 +56,14 @@ dependencies {
     compile 'org.flywaydb:flyway-core:5.2.4'
     implementation 'org.kodein.di:kodein-di-generic-jvm:6.4.1'
     implementation 'org.kodein.di:kodein-di-framework-ktor-server-jvm:6.4.1'
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
 }
 
 flyway {
     url = "jdbc:postgresql://localhost:5432/foot_cort"
     user = "postgres"
     password = "postgres"
-    baselineOnMigrate=true
+    baselineOnMigrate = true
     locations = ["filesystem:footcort/resources/db/migration"]
 }
 

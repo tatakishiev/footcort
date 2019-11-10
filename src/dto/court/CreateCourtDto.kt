@@ -1,6 +1,5 @@
 package dto.court
 
-data class CourtDto(
-    val id: Long,
+data class CreateCourtDto(
     val name: String
 )

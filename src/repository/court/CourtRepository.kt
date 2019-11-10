@@ -4,7 +4,6 @@ import domain.entity.court.Court
 import domain.entity.court.Courts
 import domainrequest.court.CreateCourtRequest
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
@@ -18,14 +17,12 @@ interface CourtRepository {
 class CourtRepositoryImpl : CourtRepository {
 
     override fun create(createCourtRequest: CreateCourtRequest): Court {
-        val responseId = transaction {
-            Courts.insertAndGetId {
+        return transaction {
+            val courtId = Courts.insertAndGetId {
                 it[name] = createCourtRequest.name
             }
-        }
 
-        return transaction {
-            Courts.select { Courts.id eq responseId }.map { toDomain(it) }.first()
+            Courts.select { Courts.id eq courtId }.map { toDomain(it) }.first()
         }
     }
 
