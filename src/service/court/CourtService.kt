@@ -7,41 +7,20 @@ import domain.entity.court.Courts.name
 import domainrequest.court.CreateCourtRequest
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import repository.court.CourtRepository
 
 interface CourtService {
     fun getAll(): List<Court>
     fun create(createCourtRequest: CreateCourtRequest): Court
 }
 
-class CourtServiceImpl : CourtService {
+class CourtServiceImpl(private val courtRepository: CourtRepository) : CourtService {
 
     override fun create(createCourtRequest: CreateCourtRequest): Court {
-        val responseId = transaction {
-            Courts.insertAndGetId {
-                it[name] = createCourtRequest.name
-            }
-        }
-
-        return transaction {
-            Courts.select { id eq responseId }.map {
-                Court(
-                    id = it[id].value,
-                    name = it[name]
-                )
-            }.first()
-        }
-
-
+        return courtRepository.create(createCourtRequest)
     }
 
     override fun getAll(): List<Court> {
-        return transaction {
-            Courts.selectAll().map {
-                Court(
-                    id = it[id].value,
-                    name = it[name]
-                )
-            }
-        }
+        return courtRepository.getAll()
     }
 }
