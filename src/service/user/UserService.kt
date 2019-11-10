@@ -4,6 +4,7 @@ import domain.entity.user.User
 import domainrequest.user.CreateUserRequest
 import dto.registration.LoginRequestDto
 import exception.user.UserByPhoneNumberNotFoundException
+import exception.user.CredentialsNotMatchingException
 import org.mindrot.jbcrypt.BCrypt
 import repository.user.UserRepository
 
@@ -20,11 +21,10 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
         val user: User = userRepository.findByPhoneNumber(loginRequestDto.phoneNumber)
             ?: throw UserByPhoneNumberNotFoundException(loginRequestDto.phoneNumber)
 
-        return if (BCrypt.checkpw(loginRequestDto.password, user.password)) {
-            user
-        } else {
-            throw IllegalArgumentException("Password not matches")
+        if (BCrypt.checkpw(loginRequestDto.password, user.password)) {
+            return user
         }
+        throw CredentialsNotMatchingException()
     }
 
     override fun create(createUserRequest: CreateUserRequest): User {
