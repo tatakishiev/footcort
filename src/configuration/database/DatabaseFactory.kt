@@ -10,16 +10,16 @@ import org.flywaydb.core.Flyway
 object DatabaseFactory {
 
     private val appConfig = HoconApplicationConfig(ConfigFactory.load())
-//    private val dbUrl = appConfig.property("db.jdbcUrl").getString()
-//    private val dbUser = appConfig.property("db.dbUser").getString()
-//    private val dbPassword = appConfig.property("db.dbPassword").getString()
+    private val dbUrl = appConfig.property("db.jdbcUrl").getString()
+    private val dbUser = appConfig.property("db.dbUser").getString()
+    private val dbPassword = appConfig.property("db.dbPassword").getString()
 
     fun init() {
         Database.connect(hikari())
         val flyway = Flyway.configure().dataSource(
-            "jdbc:postgresql://localhost:5432/foot_cort",
-            "postgres",
-            "postgres"
+            dbUrl,
+            dbUser,
+            dbPassword
         ).load()
         flyway.migrate()
     }
@@ -27,9 +27,9 @@ object DatabaseFactory {
     private fun hikari(): HikariDataSource {
         val config = HikariConfig()
         config.driverClassName = "org.postgresql.Driver"
-        config.jdbcUrl = "jdbc:postgresql://localhost:5432/foot_cort"
-        config.username = "postgres"
-        config.password = "postgres"
+        config.jdbcUrl = dbUrl
+        config.username = dbUser
+        config.password = dbPassword
         config.maximumPoolSize = 3
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
