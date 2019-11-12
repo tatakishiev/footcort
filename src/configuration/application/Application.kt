@@ -5,6 +5,7 @@ import configuration.database.DatabaseFactory
 import configuration.kodein.KodeinModule
 import controller.court.court
 import controller.registration.registration
+import controller.user.UserSearchLocation
 import controller.user.user
 import endpoint.court.CourtEndpointImpl
 import endpoint.registration.RegistrationEndpointImpl
@@ -13,15 +14,17 @@ import exception.base.ErrorResponse
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.auth.Authentication
-import io.ktor.auth.authentication
 import io.ktor.auth.jwt.jwt
 import io.ktor.config.HoconApplicationConfig
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
+import io.ktor.locations.Locations
 import io.ktor.response.respond
 import io.ktor.routing.Routing
+import io.ktor.routing.get
+import io.ktor.routing.routing
 import io.ktor.server.engine.*
 import io.ktor.server.netty.Netty
 import org.kodein.di.generic.instance
@@ -74,6 +77,7 @@ fun Application.mainDependencies() {
     install(ContentNegotiation) {
         jackson { }
     }
+    install(Locations)
 }
 
 fun Application.statusPages() {

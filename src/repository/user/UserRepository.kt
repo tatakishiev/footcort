@@ -1,15 +1,18 @@
 package repository.user
 
+import controller.user.UserSearchLocation
 import domain.entity.user.User
 import domain.entity.user.Users
 import domainrequest.user.CreateUserRequest
 import filterrequest.base.PageRequest
-import filterrequest.user.UserFilterRequest
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.insertAndGetId
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 interface UserRepository {
-    fun search(userFilterRequest: UserFilterRequest): List<User>
+    fun search(userSearchLocation: UserSearchLocation): List<User>
     fun getAll(pageRequest: PageRequest): List<User>
     fun findByPhoneNumber(phoneNumber: String): User?
     fun existsByPhoneNumber(phoneNumber: String): Boolean
@@ -54,14 +57,14 @@ class UserRepositoryImpl : UserRepository {
         }
     }
 
-    override fun search(userFilterRequest: UserFilterRequest): List<User> {
+    override fun search(userSearchLocation: UserSearchLocation): List<User> {
         return transaction {
-            userFilterRequest.searchRequest.searchString?.let {
+            userSearchLocation.searchRequest.searchString?.let {
                 Users.select {
                     Users.firstName like it
                 }
-            }?.limit(userFilterRequest.pageRequest.limit, offset = userFilterRequest.pageRequest.offset)
-                ?.map { toDomain(it) } ?: getAll(userFilterRequest.pageRequest)
+            }?.limit(userSearchLocation.pageRequest.limit, offset = userSearchLocation.pageRequest.offset)
+                ?.map { toDomain(it) } ?: getAll(userSearchLocation.pageRequest)
         }
     }
 
