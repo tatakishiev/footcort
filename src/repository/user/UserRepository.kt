@@ -59,7 +59,7 @@ class UserRepositoryImpl : UserRepository {
 
     override fun search(userSearchLocation: UserSearchLocation): List<User> {
         return transaction {
-            userSearchLocation.searchRequest.searchString?.let {
+            userSearchLocation.searchRequest?.searchString?.let {
                 Users.select {
                     Users.firstName like it
                 }

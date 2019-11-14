@@ -1,12 +1,8 @@
 package endpoint.user
 
 import controller.user.UserSearchLocation
-import domain.entity.user.User
 import dto.user.UserDto
-import filterrequest.user.UserFilterRequest
 import io.ktor.application.ApplicationCall
-import io.ktor.http.Parameters
-import io.ktor.locations.locations
 import io.ktor.response.respond
 import mapper.user.UserMapper
 import service.user.UserService

@@ -5,7 +5,6 @@ import configuration.database.DatabaseFactory
 import configuration.kodein.KodeinModule
 import controller.court.court
 import controller.registration.registration
-import controller.user.UserSearchLocation
 import controller.user.user
 import endpoint.court.CourtEndpointImpl
 import endpoint.registration.RegistrationEndpointImpl
@@ -20,11 +19,9 @@ import io.ktor.features.ContentNegotiation
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
-import io.ktor.locations.Locations
+import io.ktor.locations.*
 import io.ktor.response.respond
 import io.ktor.routing.Routing
-import io.ktor.routing.get
-import io.ktor.routing.routing
 import io.ktor.server.engine.*
 import io.ktor.server.netty.Netty
 import org.kodein.di.generic.instance
@@ -49,10 +46,10 @@ fun configureServer(): BaseApplicationEngine {
             this.port = port
         }
         module {
+            mainDependencies()
             statusPages()
             security()
             routingModule()
-            mainDependencies()
         }
     }
 
