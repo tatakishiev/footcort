@@ -37,14 +37,13 @@ class UserRepositoryImpl : UserRepository {
     override fun findByPhoneNumber(phoneNumber: String): User? {
         return transaction {
             Users.select { Users.phoneNumber eq phoneNumber }
-                .firstOrNull()
-                ?.let { toDomain(it) }
+                .firstOrNull()?.toUser()
         }
     }
 
     override fun getAll(pageRequest: PageRequest): List<User> {
         return transaction {
-            Users.selectAll().map { toDomain(it) }
+            Users.selectAll().map { it.toUser() }
         }
     }
 
@@ -55,18 +54,8 @@ class UserRepositoryImpl : UserRepository {
                     Users.firstName like it
                 }
             }?.limit(userSearchLocation.pageRequest.limit, offset = userSearchLocation.pageRequest.offset)
-                ?.map { toDomain(it) } ?: getAll(userSearchLocation.pageRequest)
+                ?.map { it.toUser() } ?: getAll(userSearchLocation.pageRequest)
         }
-    }
-
-    private fun toDomain(row: ResultRow): User {
-        return User(
-            id = row[Users.id].value,
-            phoneNumber = row[Users.phoneNumber],
-            firstName = row[Users.firstName],
-            lastName = row[Users.lastName],
-            password = row[Users.password]
-        )
     }
 }
 
