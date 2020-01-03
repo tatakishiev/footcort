@@ -28,34 +28,27 @@ class UserRepositoryImpl : UserRepository {
     }
 
     override fun existsByPhoneNumber(phoneNumber: String): Boolean {
-        return transaction {
-            findByPhoneNumber(phoneNumber) != null
-            //ToDo::check exists for exposed
-        }
+        return findByPhoneNumber(phoneNumber) != null
+        //ToDo::check exists for exposed
     }
 
     override fun findByPhoneNumber(phoneNumber: String): User? {
-        return transaction {
-            Users.select { Users.phoneNumber eq phoneNumber }
-                .firstOrNull()?.toUser()
-        }
+        return Users.select { Users.phoneNumber eq phoneNumber }
+            .firstOrNull()?.toUser()
     }
 
     override fun getAll(pageRequest: PageRequest): List<User> {
-        return transaction {
-            Users.selectAll().map { it.toUser() }
-        }
+        return Users.selectAll().map { it.toUser() }
+
     }
 
     override fun search(userSearchLocation: UserSearchLocation): List<User> {
-        return transaction {
-            userSearchLocation.searchRequest?.searchString?.let {
-                Users.select {
-                    Users.firstName like it
-                }
-            }?.limit(userSearchLocation.pageRequest.limit, offset = userSearchLocation.pageRequest.offset)
-                ?.map { it.toUser() } ?: getAll(userSearchLocation.pageRequest)
-        }
+        return userSearchLocation.searchRequest?.searchString?.let {
+            Users.select {
+                Users.firstName like it
+            }
+        }?.limit(userSearchLocation.pageRequest.limit, offset = userSearchLocation.pageRequest.offset)
+            ?.map { it.toUser() } ?: getAll(userSearchLocation.pageRequest)
     }
 }
 
