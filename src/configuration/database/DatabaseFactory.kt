@@ -16,17 +16,19 @@ object DatabaseFactory {
 
     fun init() {
         Database.connect(hikari())
-        val flyway = Flyway.configure().dataSource(
-            dbUrl,
-            dbUser,
-            dbPassword
-        ).load()
-        flyway.migrate()
+//        val flyway = Flyway.configure().dataSource(
+//            dbUrl,
+//            dbUser,
+//            dbPassword
+//        ).load()
+//        flyway.migrate()
     }
+
+
 
     private fun hikari(): HikariDataSource {
         val config = HikariConfig()
-        config.driverClassName = "org.postgresql.Driver"
+        config.driverClassName = "com.p6spy.engine.spy.P6SpyDriver"
         config.jdbcUrl = dbUrl
         config.username = dbUser
         config.password = dbPassword

@@ -1,13 +1,16 @@
 package domain.entity.court
 
-import org.jetbrains.exposed.dao.LongIdTable
-import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Table
 
-object Courts : LongIdTable() {
-    val name: Column<String> = varchar("name", 200).uniqueIndex()
+
+object Courts : Table("courts") {
+    val id = long("id").entityId().autoIncrement()
+    val name = varchar("name", 200).uniqueIndex()
+    val isHall = bool("is_hall")
 }
 
-class Court(
+data class Court(
     val id: Long,
-    val name: String
+    val name: String,
+    val isHall: Boolean
 )

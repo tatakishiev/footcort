@@ -10,14 +10,16 @@ interface CourtMapper {
     fun toCreateCourtRequest(createCourtDto: CreateCourtDto): CreateCourtRequest
 }
 
-class CourtMapperImpl: CourtMapper {
+class CourtMapperImpl : CourtMapper {
 
     override fun toCreateCourtRequest(createCourtDto: CreateCourtDto) = CreateCourtRequest(
-        name = createCourtDto.name
+        name = createCourtDto.name,
+        isHall = createCourtDto.isHall
     )
 
     override fun toCourtDto(court: Court) = CourtDto(
         id = court.id,
-        name = court.name
+        name = court.name,
+        isHall = court.isHall
     )
 }

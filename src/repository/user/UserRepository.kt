@@ -5,10 +5,7 @@ import domain.entity.user.User
 import domain.entity.user.Users
 import domainrequest.user.CreateUserRequest
 import filterrequest.base.PageRequest
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.insertAndGetId
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 interface UserRepository {
@@ -22,18 +19,12 @@ interface UserRepository {
 class UserRepositoryImpl : UserRepository {
 
     override fun create(createUserRequest: CreateUserRequest): User {
-        return transaction {
-            val userId = Users.insertAndGetId {
-                it[firstName] = createUserRequest.firstName
-                it[lastName] = createUserRequest.lastName
-                it[phoneNumber] = createUserRequest.phoneNumber
-                it[password] = createUserRequest.password
-            }.value
-
-            Users.select { Users.id eq userId }.map {
-                toDomain(it)
-            }.first()
-        }
+        return Users.insert {
+            it[firstName] = createUserRequest.firstName
+            it[lastName] = createUserRequest.lastName
+            it[phoneNumber] = createUserRequest.phoneNumber
+            it[password] = createUserRequest.password
+        }.resultedValues!!.first().toUser()
     }
 
     override fun existsByPhoneNumber(phoneNumber: String): Boolean {
@@ -78,3 +69,11 @@ class UserRepositoryImpl : UserRepository {
         )
     }
 }
+
+internal fun ResultRow.toUser(): User = User(
+    id = this[Users.id].value,
+    phoneNumber = this[Users.phoneNumber],
+    firstName = this[Users.firstName],
+    lastName = this[Users.lastName],
+    password = this[Users.password]
+)

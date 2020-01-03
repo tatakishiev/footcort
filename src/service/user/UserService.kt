@@ -6,7 +6,6 @@ import domainrequest.user.CreateUserRequest
 import dto.registration.LoginRequestDto
 import exception.user.UserByPhoneNumberNotFoundException
 import exception.user.CredentialsNotMatchingException
-import filterrequest.user.UserFilterRequest
 import org.mindrot.jbcrypt.BCrypt
 import repository.user.UserRepository
 
