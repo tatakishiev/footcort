@@ -3,8 +3,8 @@ package utils
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.interfaces.DecodedJWT
-import domain.entity.user.User
-import java.util.Date
+import user.entity.User
+import java.util.*
 
 object JwtProvider {
     private const val validityInMs = 36_000_00 * 10 // 10 hours
