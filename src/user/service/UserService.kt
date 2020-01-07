@@ -27,8 +27,10 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
     override fun findAll(): List<User> = transaction { userRepository.findAll() }
 
     override fun findUserByCredentials(loginRequestDto: LoginRequestDto): User {
-        val user: User = userRepository.findByPhoneNumber(loginRequestDto.phoneNumber)
-            ?: throw UserByPhoneNumberNotFoundException(loginRequestDto.phoneNumber)
+        val user: User = transaction {
+            userRepository.findByPhoneNumber(loginRequestDto.phoneNumber)
+                ?: throw UserByPhoneNumberNotFoundException(loginRequestDto.phoneNumber)
+        }
 
         if (BCrypt.checkpw(loginRequestDto.password, user.password)) {
             return user
@@ -37,7 +39,7 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
     }
 
     override fun create(createUserRequest: CreateUserRequest): User {
-        return userRepository.create(createUserRequest)
+        return transaction { userRepository.create(createUserRequest) }
     }
 
     override fun existsByPhoneNumber(phoneNumber: String): Boolean {
@@ -45,6 +47,7 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
     }
 
     override fun findByPhoneNumber(phoneNumber: String): User {
-        return userRepository.findByPhoneNumber(phoneNumber) ?: throw UserByPhoneNumberNotFoundException(phoneNumber)
+        return transaction { userRepository.findByPhoneNumber(phoneNumber) }
+            ?: throw UserByPhoneNumberNotFoundException(phoneNumber)
     }
 }

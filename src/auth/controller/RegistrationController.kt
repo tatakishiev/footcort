@@ -6,12 +6,10 @@ import io.ktor.routing.post
 import io.ktor.routing.route
 
 fun Routing.registration(registrationEndpoint: RegistrationEndpoint) {
-    route("registration") {
-
+    route("/api/registration") {
+        post { registrationEndpoint.register(this.context) }
         route("login") {
-            post {
-                registrationEndpoint.login(this.context)
-            }
+            post { registrationEndpoint.login(this.context) }
         }
     }
 }

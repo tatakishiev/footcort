@@ -2,6 +2,8 @@ package configuration.application
 
 import auth.controller.registration
 import auth.endpoint.RegistrationEndpointImpl
+import company.controller.company
+import company.endpoint.CompanyEndpointImpl
 import configuration.kodein.KodeinModule
 import court.controller.court
 import court.endpoint.CourtEndpointImpl
@@ -16,9 +18,11 @@ fun Application.routingModule() {
     val courtEndpoint by KodeinModule.kodein.instance<CourtEndpointImpl>()
     val userEndpoint by KodeinModule.kodein.instance<UserEndpointImpl>()
     val registrationEndpoint by KodeinModule.kodein.instance<RegistrationEndpointImpl>()
+    val companyEndpoint by KodeinModule.kodein.instance<CompanyEndpointImpl>()
     install(Routing) {
         court(courtEndpoint)
         user(userEndpoint)
         registration(registrationEndpoint)
+        company(companyEndpoint)
     }
 }
