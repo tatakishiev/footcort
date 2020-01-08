@@ -19,5 +19,5 @@ object CompaniesPhoneNumbers : Table("companies_phone_numbers") {
     val id = long("id").autoIncrement()
     val phoneNumber = varchar("phone_number", 255)
     val companyId = long("company_id").references(Companies.id)
-    override val primaryKey = PrimaryKey(Companies.id)
+    override val primaryKey = PrimaryKey(id)
 }
