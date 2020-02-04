@@ -6,13 +6,12 @@ import company.filterrequest.CompanyFilterRequest
 import company.request.CompanyCreateRequest
 import company.request.CompanyUpdateRequest
 import org.jetbrains.exposed.sql.*
-import utils.pagination.PageResponse
 
 interface CompanyRepository {
     fun save(request: CompanyCreateRequest): Company
     fun update(request: CompanyUpdateRequest, updatingCompany: Company): Int
     fun findById(id: Long): Company?
-    fun search(dto: CompanyFilterRequest): PageResponse<Company>
+    fun search(dto: CompanyFilterRequest): List<Company>
 }
 
 class CompanyRepositoryImpl : CompanyRepository {
@@ -34,7 +33,7 @@ class CompanyRepositoryImpl : CompanyRepository {
         return Companies.select { Companies.id eq id }.firstOrNull()?.toCompany()
     }
 
-    override fun search(dto: CompanyFilterRequest): PageResponse<Company> {
+    override fun search(dto: CompanyFilterRequest): List<Company> {
         val total: Query = Companies.selectAll().limit(dto.pageRequest.limit, offset = dto.pageRequest.offset)
 
         dto.sortRequest?.let {
@@ -48,10 +47,7 @@ class CompanyRepositoryImpl : CompanyRepository {
                 Companies.name like "%$it%"
             }
         }
-        return PageResponse(
-            total = total.count(),
-            list = total.map { it.toCompany() }
-        )
+        return total.map { it.toCompany() }
     }
 }
 

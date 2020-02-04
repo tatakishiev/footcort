@@ -11,6 +11,7 @@ import company.request.CompanyUpdateRequest
 import company.service.CompanyService
 import exception.company.CompanyByIdNotFoundException
 import utils.pagination.PageResponse
+import utils.toPageResponse
 
 interface CompanyEndpoint {
     fun save(dto: CompanyCreateDto): CompanyDto
@@ -35,12 +36,7 @@ class CompanyEndpointImpl(private val companyService: CompanyService,
     }
 
     override fun search(dto: CompanyFilterRequest): PageResponse<CompanyDto> {
-        val all: PageResponse<Company> = companyService.search(dto)
-        val ss = all.list.map { companyMapper.toCompanyDto(it) }
-
-        return PageResponse(
-            total = all.total,
-            list = ss
-        )
+        val all: List<Company> = companyService.search(dto)
+        return all.map { companyMapper.toCompanyDto(it) }.toPageResponse()
     }
 }

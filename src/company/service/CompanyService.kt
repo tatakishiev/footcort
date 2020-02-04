@@ -6,13 +6,12 @@ import company.repository.CompanyRepository
 import company.request.CompanyCreateRequest
 import company.request.CompanyUpdateRequest
 import org.jetbrains.exposed.sql.transactions.transaction
-import utils.pagination.PageResponse
 
 interface CompanyService {
     fun save(request: CompanyCreateRequest): Company
     fun update(request: CompanyUpdateRequest, updatingCompany: Company): Company
     fun findById(id: Long): Company?
-    fun search(dto: CompanyFilterRequest): PageResponse<Company>
+    fun search(dto: CompanyFilterRequest): List<Company>
 }
 
 class CompanyServiceImpl(private val repository: CompanyRepository) : CompanyService {
@@ -32,7 +31,7 @@ class CompanyServiceImpl(private val repository: CompanyRepository) : CompanySer
         return transaction { repository.findById(id) }
     }
 
-    override fun search(dto: CompanyFilterRequest): PageResponse<Company> {
+    override fun search(dto: CompanyFilterRequest): List<Company> {
         return transaction { repository.search(dto) }
     }
 }
