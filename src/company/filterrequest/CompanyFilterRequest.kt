@@ -25,5 +25,5 @@ enum class CompanySortParam(val value: Column<*>) {
 
 data class CompanySortRequest(
     val param: CompanySortParam,
-    val direction: SortOrder
+    val direction: SortOrder = SortOrder.ASC
 )

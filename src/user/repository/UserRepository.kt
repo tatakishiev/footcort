@@ -42,9 +42,10 @@ class UserRepositoryImpl : UserRepository {
 }
 
 internal fun ResultRow.toUser(): User = User(
-    id = this[Users.id],
+    id = this[Users.id].value,
     phoneNumber = this[Users.phoneNumber],
     firstName = this[Users.firstName],
     lastName = this[Users.lastName],
-    password = this[Users.password]
+    password = this[Users.password],
+    role = this[Users.role]
 )

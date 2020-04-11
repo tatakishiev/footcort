@@ -34,7 +34,7 @@ class CompanyRepositoryImpl : CompanyRepository {
     }
 
     override fun search(dto: CompanyFilterRequest): List<Company> {
-        val total: Query = Companies.selectAll().limit(dto.pageRequest.limit, offset = dto.pageRequest.offset)
+        val total: Query = Companies.selectAll().limit(dto.pageRequest.limit, offset = dto.pageRequest.offset.toLong())
 
         dto.sortRequest?.let {
             it.forEach { sortRequest ->
@@ -52,7 +52,7 @@ class CompanyRepositoryImpl : CompanyRepository {
 }
 
 internal fun ResultRow.toCompany(): Company = Company(
-    id = this[Companies.id],
+    id = this[Companies.id].value,
     name = this[Companies.name],
     address = this[Companies.address]
 )

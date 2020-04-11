@@ -23,6 +23,7 @@ fun configureServer(): BaseApplicationEngine {
             statusPages()
             security()
             routingModule()
+            session()
         }
     }
 

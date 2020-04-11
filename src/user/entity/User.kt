@@ -1,15 +1,14 @@
 package user.entity
 
 import io.ktor.auth.Principal
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.id.LongIdTable
 
-object Users : Table("users") {
-    val id = long("id").autoIncrement()
+object Users : LongIdTable("users") {
     val phoneNumber = varchar("phone_number", 20).uniqueIndex()
     val firstName = varchar("first_name", 25).nullable()
     val lastName = varchar("last_name", 30).nullable()
     val password = varchar("password", 150)
-    override val primaryKey = PrimaryKey(id)
+    val role = enumeration("role", Roles::class)
 }
 
 class User(
@@ -17,5 +16,11 @@ class User(
     val phoneNumber: String,
     val firstName: String?,
     val lastName: String?,
-    val password: String
+    val password: String,
+    val role: Roles
 ) : Principal
+
+enum class Roles {
+    COMPANY_OWNER,
+    USER
+}
