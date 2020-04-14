@@ -1,8 +1,8 @@
 package user.service
 
 import auth.dto.LoginRequestDto
-import exception.user.CredentialsNotMatchingException
-import exception.user.UserByPhoneNumberNotFoundException
+import user.exception.CredentialsNotMatchingException
+import user.exception.UserByPhoneNumberNotFoundException
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 import user.entity.User

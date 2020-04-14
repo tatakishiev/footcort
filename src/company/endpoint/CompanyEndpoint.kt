@@ -9,7 +9,7 @@ import company.mapper.CompanyMapper
 import company.request.CompanyCreateRequest
 import company.request.CompanyUpdateRequest
 import company.service.CompanyService
-import exception.company.CompanyByIdNotFoundException
+import company.exception.CompanyByIdNotFoundException
 import utils.pagination.PageResponse
 import utils.toPageResponse
 
@@ -29,7 +29,9 @@ class CompanyEndpointImpl(private val companyService: CompanyService,
     }
 
     override fun update(dto: CompanyUpdateDto, id: Long): CompanyDto {
-        val updatingCompany: Company = companyService.findById(id) ?: throw CompanyByIdNotFoundException(id)
+        val updatingCompany: Company = companyService.findById(id) ?: throw CompanyByIdNotFoundException(
+            id
+        )
         val companyUpdateRequest: CompanyUpdateRequest = companyMapper.toCompanyUpdateRequest(dto)
         val updatedCompany: Company = companyService.update(companyUpdateRequest, updatingCompany)
         return companyMapper.toCompanyDto(updatedCompany)

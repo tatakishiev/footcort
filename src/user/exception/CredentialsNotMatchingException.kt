@@ -1,3 +1,3 @@
-package exception.user
+package user.exception
 
 open class CredentialsNotMatchingException : Exception("Credentials are not matching")

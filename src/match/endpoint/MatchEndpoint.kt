@@ -6,14 +6,13 @@ import court.service.CourtService
 import match.dto.MatchCreateDto
 import match.dto.MatchDto
 import match.entity.Match
-import match.exception.CourtNotFoundException
+import court.exception.CourtNotFoundException
 import match.filterrequest.MatchFilterRequest
 import match.mapper.MatchMapper
 import match.request.MatchCreateRequest
 import match.service.MatchService
 import user.entity.User
 import user.service.UserService
-import java.lang.Exception
 
 interface MatchEndpoint {
     fun findByCourtId(courtId: Long, filterRequest: MatchFilterRequest): List<MatchDto>

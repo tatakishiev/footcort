@@ -20,7 +20,7 @@ fun configureServer(): BaseApplicationEngine {
         }
         module {
             jackson()
-//            statusPages()
+            statusPages()
             security()
             routingModule()
             session()
