@@ -4,6 +4,7 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
+import user.entity.Roles
 import user.entity.User
 import user.entity.Users
 import user.request.CreateUserRequest
@@ -23,6 +24,7 @@ class UserRepositoryImpl : UserRepository {
             it[lastName] = createUserRequest.lastName
             it[phoneNumber] = createUserRequest.phoneNumber
             it[password] = createUserRequest.password
+            it[role] = Roles.USER
         }.resultedValues!!.first().toUser()
     }
 

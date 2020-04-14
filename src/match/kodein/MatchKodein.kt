@@ -14,6 +14,6 @@ object MatchKodein {
         bind() from singleton { MatchRepositoryImpl() }
         bind() from singleton { MatchMapperImpl() }
         bind() from singleton { MatchServiceImpl(instance()) }
-        bind() from singleton { MatchEndpointImpl(instance(), instance(), instance()) }
+        bind() from singleton { MatchEndpointImpl(instance(), instance(), instance(), instance()) }
     }
 }

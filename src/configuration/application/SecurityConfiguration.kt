@@ -55,7 +55,7 @@ data class UserSession(
     val role: Roles
 )
 
-internal data class FailMessage(
+data class FailMessage(
     val statusCode: HttpStatusCode = HttpStatusCode.Forbidden,
     val message: String = "User is not Authenticated"
 )

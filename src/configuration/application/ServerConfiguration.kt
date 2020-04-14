@@ -19,8 +19,8 @@ fun configureServer(): BaseApplicationEngine {
             this.port = port
         }
         module {
-            mainDependencies()
-            statusPages()
+            jackson()
+//            statusPages()
             security()
             routingModule()
             session()

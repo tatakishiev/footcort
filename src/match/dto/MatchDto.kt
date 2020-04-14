@@ -7,3 +7,9 @@ data class MatchDto(
     val start: LocalDateTime,
     val end: LocalDateTime
 )
+
+data class MatchCreateDto(
+    val start: LocalDateTime = LocalDateTime.now(),
+    val end: LocalDateTime = LocalDateTime.now(),
+    val description: String
+)

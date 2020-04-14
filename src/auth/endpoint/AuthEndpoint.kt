@@ -35,16 +35,18 @@ class AuthEndpointImpl(
         val createUserRequest: CreateUserRequest = userMapper.toCreateUseRequest(registrationDto)
         val user: User = userService.create(createUserRequest)
         val userSession: UserSession = userSessionMapper.toUserSession(user)
+        val userDto: UserDto = userMapper.toDto(user)
         context.sessions.set(userSession)
-        context.respond(HttpStatusCode.OK)
+        context.respond(userDto)
     }
 
     override suspend fun login(context: ApplicationCall) {
         val loginRequestDto: LoginRequestDto = context.receive()
         val user: User = userService.findUserByCredentials(loginRequestDto)
         val userSession: UserSession = userSessionMapper.toUserSession(user)
+        val userDto: UserDto = userMapper.toDto(user)
         context.sessions.set(userSession)
-        context.respond(HttpStatusCode.OK)
+        context.respond(userDto)
     }
 //JWT Login and registration impl
 //    override suspend fun register(ctx: ApplicationCall) {

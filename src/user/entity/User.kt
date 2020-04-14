@@ -8,7 +8,7 @@ object Users : LongIdTable("users") {
     val firstName = varchar("first_name", 25).nullable()
     val lastName = varchar("last_name", 30).nullable()
     val password = varchar("password", 150)
-    val role = enumeration("role", Roles::class)
+    val role = enumerationByName("role", 20,  Roles::class)
 }
 
 class User(
@@ -21,6 +21,6 @@ class User(
 ) : Principal
 
 enum class Roles {
-    COMPANY_OWNER,
+//    COMPANY_OWNER,
     USER
 }
