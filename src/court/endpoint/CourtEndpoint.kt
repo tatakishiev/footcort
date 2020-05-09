@@ -1,12 +1,11 @@
 package court.endpoint
 
-import court.service.CourtService
-import io.ktor.application.ApplicationCall
-import io.ktor.response.respond
+import court.dto.CourtDto
 import court.mapper.CourtMapper
+import court.service.CourtService
 
 interface CourtEndpoint {
-    suspend fun findAll(ctx: ApplicationCall)
+    suspend fun findAll(): List<CourtDto>
 }
 
 class CourtEndpointImpl(
@@ -14,7 +13,7 @@ class CourtEndpointImpl(
     private val courtMapper: CourtMapper
 ) : CourtEndpoint {
 
-    override suspend fun findAll(ctx: ApplicationCall) {
-        return ctx.respond(courtService.findAll().map { courtMapper.toCourtDto(it) })
+    override suspend fun findAll(): List<CourtDto> {
+        return courtService.findAll().map { courtMapper.toCourtDto(it) }
     }
 }
