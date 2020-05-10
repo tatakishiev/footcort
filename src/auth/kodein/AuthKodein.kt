@@ -4,6 +4,7 @@ import auth.endpoint.AuthEndpointImpl
 import auth.mapper.TokenMapperImpl
 import auth.mapper.UserSessionMapper
 import auth.mapper.UserSessionMapperImpl
+import auth.validation.AuthValidation
 import auth.validation.AuthValidationImpl
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -13,7 +14,7 @@ import org.kodein.di.generic.singleton
 object AuthKodein {
     val module = Kodein.Module("REGISTRATION") {
         bind() from singleton { TokenMapperImpl() }
-        bind() from singleton { AuthEndpointImpl(instance(), instance(), instance()) }
+        bind() from singleton { AuthEndpointImpl(instance(), instance(), instance(), instance()) }
         bind() from singleton { UserSessionMapperImpl() }
         bind() from singleton { AuthValidationImpl() }
     }
