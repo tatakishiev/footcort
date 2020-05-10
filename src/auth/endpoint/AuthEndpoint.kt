@@ -5,6 +5,7 @@ import auth.dto.RegistrationDto
 import auth.dto.TokenDto
 import auth.mapper.TokenMapper
 import auth.mapper.UserSessionMapper
+import auth.validation.AuthValidation
 import configuration.application.UserSession
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
@@ -12,6 +13,8 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.sessions.sessions
 import io.ktor.sessions.set
+import org.valiktor.functions.isNotBlank
+import org.valiktor.validate
 import user.dto.UserDto
 import user.entity.User
 import user.mapper.UserMapper
@@ -27,11 +30,13 @@ interface AuthEndpoint {
 class AuthEndpointImpl(
     private val userService: UserService,
     private val userMapper: UserMapper,
-    private val userSessionMapper: UserSessionMapper
+    private val userSessionMapper: UserSessionMapper,
+    private val authValidation: AuthValidation
 ) : AuthEndpoint {
 
     override suspend fun register(context: ApplicationCall) {
         val registrationDto: RegistrationDto = context.receive()
+        authValidation.registrationValidation(registrationDto)
         val createUserRequest: CreateUserRequest = userMapper.toCreateUseRequest(registrationDto)
         val user: User = userService.create(createUserRequest)
         val userSession: UserSession = userSessionMapper.toUserSession(user)
@@ -48,6 +53,7 @@ class AuthEndpointImpl(
         context.sessions.set(userSession)
         context.respond(userDto)
     }
+
 //JWT Login and registration impl
 //    override suspend fun register(ctx: ApplicationCall) {
 //        val registrationDto: RegistrationDto = ctx.receive()

@@ -1,6 +1,7 @@
 package configuration.application
 
 import com.typesafe.config.ConfigFactory
+import configuration.application.statuspage.statusPages
 import io.ktor.config.HoconApplicationConfig
 import io.ktor.server.engine.*
 import io.ktor.server.netty.Netty

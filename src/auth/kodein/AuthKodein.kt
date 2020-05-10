@@ -4,6 +4,7 @@ import auth.endpoint.AuthEndpointImpl
 import auth.mapper.TokenMapperImpl
 import auth.mapper.UserSessionMapper
 import auth.mapper.UserSessionMapperImpl
+import auth.validation.AuthValidationImpl
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -14,5 +15,6 @@ object AuthKodein {
         bind() from singleton { TokenMapperImpl() }
         bind() from singleton { AuthEndpointImpl(instance(), instance(), instance()) }
         bind() from singleton { UserSessionMapperImpl() }
+        bind() from singleton { AuthValidationImpl() }
     }
 }
