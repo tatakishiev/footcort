@@ -69,6 +69,7 @@ dependencies {
     implementation "io.ktor:ktor-gson:$ktor_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8"
     implementation 'org.valiktor:valiktor-core:0.11.0'
+    testCompile group: 'io.mockk', name: 'mockk', version: '1.10.0'
 }
 
 flyway {

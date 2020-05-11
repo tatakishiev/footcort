@@ -6,6 +6,7 @@ import company.filterrequest.CompanyFilterRequest
 import company.request.CompanyCreateRequest
 import company.request.CompanyUpdateRequest
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
 
 interface CompanyRepository {
     fun save(request: CompanyCreateRequest): Company

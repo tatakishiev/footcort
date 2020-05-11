@@ -47,6 +47,7 @@ class AuthEndpointImpl(
 
     override suspend fun login(context: ApplicationCall) {
         val loginRequestDto: LoginRequestDto = context.receive()
+        authValidation.loginValidation(loginRequestDto)
         val user: User = userService.findUserByCredentials(loginRequestDto)
         val userSession: UserSession = userSessionMapper.toUserSession(user)
         val userDto: UserDto = userMapper.toDto(user)
