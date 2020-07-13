@@ -6,6 +6,7 @@ import court.entity.Court
 import court.mapper.CourtMapper
 import court.request.CreateCourtRequest
 import court.service.CourtService
+import court.validation.CourtValidator
 
 interface CourtEndpoint {
     suspend fun findAll(): List<CourtDto>
@@ -14,7 +15,8 @@ interface CourtEndpoint {
 
 class CourtEndpointImpl(
     private val courtService: CourtService,
-    private val courtMapper: CourtMapper
+    private val courtMapper: CourtMapper,
+    private val courtValidator: CourtValidator
 ) : CourtEndpoint {
 
     override suspend fun findAll(): List<CourtDto> {
@@ -23,6 +25,7 @@ class CourtEndpointImpl(
 
     override suspend fun create(createCourtDto: CreateCourtDto): CourtDto {
         val createCourtRequest: CreateCourtRequest = courtMapper.toCreateCourtRequest(createCourtDto)
+        courtValidator.createCourtValidation(createCourtDto)
         val court: Court = courtService.create(createCourtRequest)
         return courtMapper.toCourtDto(court)
     }
